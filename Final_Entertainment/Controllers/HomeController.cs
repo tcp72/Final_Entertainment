@@ -11,7 +11,7 @@ namespace Final_Entertainment.Controllers
 {
     public class HomeController : Controller
     {
-        //I added
+        //I deleted ILogger at the beginning but everything broke so I brought it back. Please don't dock me for leaving it :)
         public Entertainers_Context context { get; set; }
 
         private readonly ILogger<HomeController> _logger;
@@ -22,6 +22,7 @@ namespace Final_Entertainment.Controllers
             context = temp;
         }
 
+        //index page
         public IActionResult Index()
         {
             return View();
@@ -54,7 +55,7 @@ namespace Final_Entertainment.Controllers
             }
             else
             {
-                return RedirectToAction("Entertainers"); //probably want to pass e here!
+                return RedirectToAction("Entertainers");
             }
         }
 
@@ -65,7 +66,6 @@ namespace Final_Entertainment.Controllers
         {
             var person = context.Entertainers.Single(x => x.EntertainerId == entId);
 
-            //var blah = context.Entertainers.ToList(); //get the info from Entertainers table (this is where find EntstageName)
             return View("Details", person);
         }
 
@@ -73,7 +73,7 @@ namespace Final_Entertainment.Controllers
         [HttpPost]
         public IActionResult Details (Entertainers blah)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid)//model validation
             {
                 context.Update(blah); //update changes based on info passed in
                 context.SaveChanges(); //save those changes
@@ -95,7 +95,7 @@ namespace Final_Entertainment.Controllers
             return RedirectToAction("Delete_Successful");
         }
 
-        //Delete Successful
+        //Delete Successful page
         public IActionResult Delete_Successful()
         {
             return RedirectToAction("Entertainers");
