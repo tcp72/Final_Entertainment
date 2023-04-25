@@ -51,25 +51,55 @@ namespace Final_Entertainment.Controllers
                 context.SaveChanges();
 
                 return View("Confirmation");
-    }
+            }
             else
             {
-                return View("Entertainers"); //probably want to pass e here!
-}
+                return RedirectToAction("Entertainers"); //probably want to pass e here!
+            }
         }
 
 
-
-        //pass in the entertainer id to the details page //think need httpget
-        //[HttpGet]
+        //pass in the entertainer id to the details page
+        [HttpGet]
         public IActionResult Details(long entId)
         {
             var person = context.Entertainers.Single(x => x.EntertainerId == entId);
 
             //var blah = context.Entertainers.ToList(); //get the info from Entertainers table (this is where find EntstageName)
-            return View("AddEntertainer", person);
+            return View("Details", person);
         }
 
+        //this is the edit button and we're saving it
+        [HttpPost]
+        public IActionResult Details (Entertainers blah)
+        {
+            if (ModelState.IsValid)
+            {
+                context.Update(blah); //update changes based on info passed in
+                context.SaveChanges(); //save those changes
+
+                return RedirectToAction("Entertainers"); //send user to WaitList Action and load the data needed to make page display
+            }
+            else
+            {
+                return RedirectToAction("Entertainers");
+            }
+        }
+
+        //Delete functionality
+        public IActionResult Delete (Entertainers e)
+        {
+            context.Entertainers.Remove(e);
+            context.SaveChanges();
+
+            return RedirectToAction("Delete_Successful");
+        }
+
+        //Delete Successful
+        public IActionResult Delete_Successful()
+        {
+            return RedirectToAction("Entertainers");
+        }
 
         //-------------------don't care about below---------I kept it because my program broken when I removed it (please don't dock for dirty code here :)
         public IActionResult Privacy()
