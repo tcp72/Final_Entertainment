@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Entertainers";
+}
+
+@model List<Entertainers>
+<!--Entertainers is the name of DBcontext and of table; already put it in ViewImports-->
+
+<h1>Entertainers page</h1>
+
+<table class="table table-bordered table-striped">
+    <thead class="font-weight-bold">
+        <tr>
+            <td>Entertainer</td>
+            <td>View Details</td>
+        </tr>
+    </thead>
+
+    <!--Display all entertainers. If they click on the details, pass the Entertainer Id back to the controler-->
+    <tbody>
+        @foreach (Entertainers e in Model)
+        {
+            <tr>
+                <td>@e.EntStageName</td>
+                <td><a asp-controller="Home" asp-action="Details" asp-route-id="@e.EntertainerId">Details</a></td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+
+<a asp-controller="Home" asp-action="AddEntertainer" class="btn btn-primary">Add an Entertainer</a>
